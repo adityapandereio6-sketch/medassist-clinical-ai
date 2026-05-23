@@ -1,0 +1,66 @@
+EVENT: {"alerts": [{"conflicting_drug": "warfarin", "new_drug": "AsPiRiN", "patient": "PT-9942", "rationale": "Co-administration of 'AsPiRiN' and 'warfarin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 81, "drug": "AsPiRiN", "patient_id": "PT-9942", "timestamp": "2026-05-22T14:03:08.079946Z"}
+HASH: 59b7eb48c304168f1dbaccc1053ce6d79211c98869dfba546978c8c1ca8c1739
+---
+EVENT: {"alerts": [{"conflicting_drug": "aspirin", "new_drug": "waRFarin", "patient": "PT-7721", "rationale": "Co-administration of 'waRFarin' and 'aspirin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 5.0, "drug": "waRFarin", "patient_id": "PT-7721", "timestamp": "2026-05-22T14:03:08.081330Z"}
+HASH: cfb8b47859d946747c60190f2fdc492a9558be80d41f537424a6a7ef3f8e9e1a
+---
+EVENT: {"alerts": [{"drug": "Penicillin", "patient": "PT-1082", "rationale": "Patient has a documented anaphylactic allergy to Penicillin.", "severity": "CRITICAL_ALLERGY"}], "dosage_mg": 500, "drug": "Penicillin", "patient_id": "PT-1082", "timestamp": "2026-05-22T14:03:08.084209Z"}
+HASH: 93856ce1b3637d6c3cd19ac421b1ec48bae0d36a37f9d1ce66da5953db49735f
+---
+EVENT: {"alerts": [{"dosage_mg": 5000, "drug": "Ibuprofen", "mean_mg": 488.89, "rationale": "Prescribed dosage 5000mg for Ibuprofen is statistically anomalous (Z-score: 21.16 > 2.5). Historical mean is 488.89mg (SD: 213.15mg).", "severity": "DOSAGE_ANOMALY", "std_dev_mg": 213.15, "z_score": 21.16}], "dosage_mg": 5000, "drug": "Ibuprofen", "patient_id": "PT-5561", "timestamp": "2026-05-22T14:03:08.084893Z"}
+HASH: 765e07d8723a0bce9a6dfc062256140f4776b9d3a4a6ecd3e8f689926d217d52
+---
+EVENT: {"alerts": [{"conflicting_drug": "warfarin", "new_drug": "AsPiRiN", "patient": "PT-9942", "rationale": "Co-administration of 'AsPiRiN' and 'warfarin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 81, "drug": "AsPiRiN", "patient_id": "PT-9942", "timestamp": "2026-05-22T14:03:23.834377+00:00"}
+HASH: 3df748473b1d180e71b25a6e880e3475f6e9ed6e6a17e726cc8e5bdf987f5c2f
+---
+EVENT: {"alerts": [{"conflicting_drug": "aspirin", "new_drug": "waRFarin", "patient": "PT-7721", "rationale": "Co-administration of 'waRFarin' and 'aspirin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 5.0, "drug": "waRFarin", "patient_id": "PT-7721", "timestamp": "2026-05-22T14:03:23.838523+00:00"}
+HASH: bbde4a0e7667f54798f467182e12f1f9de66ae09cc824ccd3023db797b24cfd9
+---
+EVENT: {"alerts": [{"drug": "Penicillin", "patient": "PT-1082", "rationale": "Patient has a documented anaphylactic allergy to Penicillin.", "severity": "CRITICAL_ALLERGY"}], "dosage_mg": 500, "drug": "Penicillin", "patient_id": "PT-1082", "timestamp": "2026-05-22T14:03:23.839401+00:00"}
+HASH: 9686844d55d2d14fd40ec3faf8d3a938bac0bf28cf93d6caecca82c9f36a4a20
+---
+EVENT: {"alerts": [{"dosage_mg": 5000, "drug": "Ibuprofen", "mean_mg": 488.89, "rationale": "Prescribed dosage 5000mg for Ibuprofen is statistically anomalous (Z-score: 21.16 > 2.5). Historical mean is 488.89mg (SD: 213.15mg).", "severity": "DOSAGE_ANOMALY", "std_dev_mg": 213.15, "z_score": 21.16}], "dosage_mg": 5000, "drug": "Ibuprofen", "patient_id": "PT-5561", "timestamp": "2026-05-22T14:03:23.840114+00:00"}
+HASH: 6458ef3b9491c25b4c7d486b8f9902d139596052e9aa7592a22fb8b61995e843
+---
+EVENT: {"alerts": [{"conflicting_drug": "warfarin", "new_drug": "AsPiRiN", "patient": "PT-9942", "rationale": "Co-administration of 'AsPiRiN' and 'warfarin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 81, "drug": "AsPiRiN", "patient_id": "PT-9942", "timestamp": "2026-05-22T14:06:36.656529+00:00"}
+HASH: 58dda40276c3f34df1991422003f62ed398f2ceb3f41279a182e51cc1e1fd5e2
+---
+EVENT: {"alerts": [{"conflicting_drug": "aspirin", "new_drug": "waRFarin", "patient": "PT-7721", "rationale": "Co-administration of 'waRFarin' and 'aspirin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 5.0, "drug": "waRFarin", "patient_id": "PT-7721", "timestamp": "2026-05-22T14:06:36.658005+00:00"}
+HASH: 1f151f5296ab7d5582103b8b790bca1145d2eb49f970ae73f13b784d7b25bc9e
+---
+EVENT: {"alerts": [{"drug": "Penicillin", "patient": "PT-1082", "rationale": "Patient has a documented anaphylactic allergy to Penicillin.", "severity": "CRITICAL_ALLERGY"}], "dosage_mg": 500, "drug": "Penicillin", "patient_id": "PT-1082", "timestamp": "2026-05-22T14:06:36.659889+00:00"}
+HASH: 06699a5b810dff794b55c0383bebf64ceceb24d87b2e77e853cca4e9b40e0621
+---
+EVENT: {"alerts": [{"dosage_mg": 5000, "drug": "Ibuprofen", "mean_mg": 488.89, "rationale": "Prescribed dosage 5000mg for Ibuprofen is statistically anomalous (Z-score: 21.16 > 2.5). Historical mean is 488.89mg (SD: 213.15mg).", "severity": "DOSAGE_ANOMALY", "std_dev_mg": 213.15, "z_score": 21.16}], "dosage_mg": 5000, "drug": "Ibuprofen", "patient_id": "PT-5561", "timestamp": "2026-05-22T14:06:36.661370+00:00"}
+HASH: 586361a3f2ee3b9aefe736ba98ac3562696c799278ddb291a17b7e7a8490d044
+---
+EVENT: {"alerts": [{"conflicting_drug": "warfarin", "new_drug": "AsPiRiN", "patient": "PT-9942", "rationale": "Co-administration of 'AsPiRiN' and 'warfarin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 81, "drug": "AsPiRiN", "patient_id": "PT-9942", "timestamp": "2026-05-22T14:08:44.221532+00:00"}
+HASH: 2eda2520d62a0953c9ef5d2bf8bdc8c84d2cb98d549a17a4a24f219e1ac6a50c
+---
+EVENT: {"alerts": [{"conflicting_drug": "aspirin", "new_drug": "waRFarin", "patient": "PT-7721", "rationale": "Co-administration of 'waRFarin' and 'aspirin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 5.0, "drug": "waRFarin", "patient_id": "PT-7721", "timestamp": "2026-05-22T14:08:44.222321+00:00"}
+HASH: 202943d548d928c5a1a4cac64f77eaf3ba20b760319bc5459b7c296480e5781c
+---
+EVENT: {"alerts": [{"drug": "Penicillin", "patient": "PT-1082", "rationale": "Patient has a documented anaphylactic allergy to Penicillin.", "severity": "CRITICAL_ALLERGY"}], "dosage_mg": 500, "drug": "Penicillin", "patient_id": "PT-1082", "timestamp": "2026-05-22T14:08:44.223052+00:00"}
+HASH: 7c4ca6dee156edbbe44a54d1c0679e711b96d16b1b4d7e049128fde40d7cbe56
+---
+EVENT: {"alerts": [{"dosage_mg": 5000, "drug": "Ibuprofen", "mean_mg": 488.89, "rationale": "Prescribed dosage 5000mg for Ibuprofen is statistically anomalous (Z-score: 21.16 > 2.5). Historical mean is 488.89mg (SD: 213.15mg).", "severity": "DOSAGE_ANOMALY", "std_dev_mg": 213.15, "z_score": 21.16}], "dosage_mg": 5000, "drug": "Ibuprofen", "patient_id": "PT-5561", "timestamp": "2026-05-22T14:08:44.224073+00:00"}
+HASH: b482dd8dd9d0686d24cd94537caa343b29d58beb451ad4f1173f9202d2a65e6f
+---
+EVENT: {"alerts": [{"conflicting_drug": "sildenafil", "new_drug": "Nitroglycerin", "patient": "PT-1001", "rationale": "Co-administration of 'Nitroglycerin' and 'sildenafil' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 2.5, "drug": "Nitroglycerin", "patient_id": "PT-1001", "timestamp": "2026-05-22T14:08:44.224887+00:00"}
+HASH: 9ae82778773cba4a2d52759a9d6d79ebecb3d2fe8b9282ae0afa0dcce27e1c04
+---
+EVENT: {"alerts": [{"conflicting_drug": "warfarin", "new_drug": "AsPiRiN", "patient": "PT-9942", "rationale": "Co-administration of 'AsPiRiN' and 'warfarin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 81, "drug": "AsPiRiN", "patient_id": "PT-9942", "timestamp": "2026-05-22T14:09:14.062575+00:00"}
+HASH: 52bea6f9b3c52395d0080bd61785d2ae770b182ad7464b7e4fb645d657bffae5
+---
+EVENT: {"alerts": [{"conflicting_drug": "aspirin", "new_drug": "waRFarin", "patient": "PT-7721", "rationale": "Co-administration of 'waRFarin' and 'aspirin' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 5.0, "drug": "waRFarin", "patient_id": "PT-7721", "timestamp": "2026-05-22T14:09:14.063997+00:00"}
+HASH: 01788412a110d79e97ea1def9484f3e30a2c63899168ce70d3aea7f07e326e4b
+---
+EVENT: {"alerts": [{"drug": "Penicillin", "patient": "PT-1082", "rationale": "Patient has a documented anaphylactic allergy to Penicillin.", "severity": "CRITICAL_ALLERGY"}], "dosage_mg": 500, "drug": "Penicillin", "patient_id": "PT-1082", "timestamp": "2026-05-22T14:09:14.065310+00:00"}
+HASH: b298f27071c456109fc362bd8c9ca7f88546ae4f98381871c8c3a2be44bd574a
+---
+EVENT: {"alerts": [{"dosage_mg": 5000, "drug": "Ibuprofen", "mean_mg": 488.89, "rationale": "Prescribed dosage 5000mg for Ibuprofen is statistically anomalous (Z-score: 21.16 > 2.5). Historical mean is 488.89mg (SD: 213.15mg).", "severity": "DOSAGE_ANOMALY", "std_dev_mg": 213.15, "z_score": 21.16}], "dosage_mg": 5000, "drug": "Ibuprofen", "patient_id": "PT-5561", "timestamp": "2026-05-22T14:09:14.066856+00:00"}
+HASH: 7a1e60d3c5914e2bd24a397e5555bf32bb4364457a27da7152ba5054daba5d62
+---
+EVENT: {"alerts": [{"conflicting_drug": "sildenafil", "new_drug": "Nitroglycerin", "patient": "PT-1001", "rationale": "Co-administration of 'Nitroglycerin' and 'sildenafil' is contraindicated.", "severity": "CRITICAL_INTERACTION"}], "dosage_mg": 2.5, "drug": "Nitroglycerin", "patient_id": "PT-1001", "timestamp": "2026-05-22T14:09:14.068327+00:00"}
+HASH: 2bcb730bc801e04fbb26c52426e3c3619ec77dd293957db2cbffd9f3c426e51e
+---
