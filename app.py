@@ -1,5 +1,5 @@
 import streamlit as st
-
+from medassist import Patient, ClinicalSafetyEngine
 st.set_page_config(
     page_title="MedAssist Clinical AI",
     page_icon="🏥",
