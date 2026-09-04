@@ -37,3 +37,17 @@ patient = Patient(
     allergies=allergies.split(",") if allergies else [],
     active_meds=active_meds.split(",") if active_meds else []
 )
+st.divider()
+
+st.header("💊 Medication Safety Check")
+
+new_drug = st.text_input(
+    "New Medication",
+    placeholder="e.g. aspirin"
+)
+
+dosage = st.number_input(
+    "Dosage (mg)",
+    min_value=0.0,
+    value=100.0
+)
