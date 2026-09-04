@@ -2,9 +2,9 @@ import streamlit as st
 from medassist import Patient, ClinicalSafetyEngine
 
 
-# ---------------------------------------------------------
-# PAGE CONFIGURATION
-# ---------------------------------------------------------
+# =========================================================
+# PAGE CONFIG
+# =========================================================
 
 st.set_page_config(
     page_title="MedAssist Clinical AI",
@@ -13,52 +13,80 @@ st.set_page_config(
 )
 
 
-# ---------------------------------------------------------
-# CUSTOM CSS
-# ---------------------------------------------------------
+# =========================================================
+# CUSTOM STYLING
+# =========================================================
 
 st.markdown(
     """
     <style>
-        .main {
-            background-color: #0e1117;
-        }
 
-        .block-container {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
+    .main {
+        background-color: #0e1117;
+    }
 
-        .hero {
-            padding: 25px;
-            border-radius: 15px;
-            background: linear-gradient(
-                135deg,
-                #111827,
-                #1e293b
-            );
-            border: 1px solid #334155;
-            margin-bottom: 25px;
-        }
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        max-width: 1400px;
+    }
 
-        .hero h1 {
-            margin-bottom: 5px;
-        }
+    .hero {
+        padding: 30px;
+        border-radius: 18px;
+        background: linear-gradient(
+            135deg,
+            #111827,
+            #1e293b
+        );
+        border: 1px solid #334155;
+        margin-bottom: 25px;
+    }
 
-        .status-box {
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 15px;
-        }
+    .hero h1 {
+        font-size: 42px;
+        margin-bottom: 8px;
+    }
+
+    .hero p {
+        font-size: 18px;
+        color: #cbd5e1;
+    }
+
+    .metric-card {
+        padding: 18px;
+        border-radius: 14px;
+        background: #161b22;
+        border: 1px solid #30363d;
+        text-align: center;
+    }
+
+    .metric-title {
+        font-size: 14px;
+        color: #94a3b8;
+    }
+
+    .metric-value {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .footer {
+        text-align: center;
+        color: #64748b;
+        padding-top: 15px;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
 )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # HEADER
-# ---------------------------------------------------------
+# =========================================================
 
 st.markdown(
     """
@@ -79,16 +107,16 @@ st.write(
 )
 
 
-# ---------------------------------------------------------
-# INITIALIZE ENGINE
-# ---------------------------------------------------------
+# =========================================================
+# ENGINE
+# =========================================================
 
 engine = ClinicalSafetyEngine()
 
 
-# ---------------------------------------------------------
+# =========================================================
 # PATIENT INFORMATION
-# ---------------------------------------------------------
+# =========================================================
 
 st.divider()
 
@@ -118,33 +146,41 @@ with col3:
     )
 
 
-allergies = st.text_input(
+allergies_input = st.text_input(
     "Allergies",
     placeholder="Example: penicillin, aspirin"
 )
 
-active_meds = st.text_input(
+active_meds_input = st.text_input(
     "Active Medications",
     placeholder="Example: warfarin, aspirin"
 )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # CREATE PATIENT
-# ---------------------------------------------------------
+# =========================================================
 
 patient = Patient(
     patient_id=patient_id,
     age=age,
     weight_kg=weight,
-    allergies=allergies.split(",") if allergies else [],
-    active_medications=active_meds.split(",") if active_meds else []
+    allergies=(
+        allergies_input.split(",")
+        if allergies_input.strip()
+        else []
+    ),
+    active_medications=(
+        active_meds_input.split(",")
+        if active_meds_input.strip()
+        else []
+    )
 )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # MEDICATION INPUT
-# ---------------------------------------------------------
+# =========================================================
 
 st.divider()
 
@@ -166,9 +202,9 @@ with col2:
     )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # SAFETY CHECK
-# ---------------------------------------------------------
+# =========================================================
 
 if st.button(
     "🔍 Run Clinical Safety Check",
@@ -178,71 +214,192 @@ if st.button(
 
     if not new_drug.strip():
 
-        st.warning("Please enter a medication.")
+        st.warning(
+            "Please enter a medication before running the analysis."
+        )
 
     else:
 
-        # Normalize medication name
         new_drug = new_drug.strip()
 
-        # Run clinical checks
-        allergy_alert = engine.check_allergy(
+
+        # -------------------------------------------------
+        # RUN ALL THREE SAFETY CHECKS
+        # -------------------------------------------------
+
+        allergy_alerts = engine.check_allergy(
             patient,
             new_drug
         )
 
-        interaction_alert = engine.check_interaction(
+        interaction_alerts = engine.check_interaction(
             patient,
             new_drug
         )
 
-        dosage_alert = engine.check_dosage_anomaly(
+        dosage_alerts = engine.check_dosage_anomaly(
             new_drug,
             dosage
         )
 
-        # Combine all alerts
+
+        # Combine alerts
         alerts = (
-            allergy_alert
-            + interaction_alert
-            + dosage_alert
+            allergy_alerts
+            + interaction_alerts
+            + dosage_alerts
         )
 
 
         # -------------------------------------------------
-        # RESULT
+        # RISK SUMMARY
+        # -------------------------------------------------
+
+        st.divider()
+
+        st.header("📋 Clinical Risk Assessment")
+
+        risk_col1, risk_col2, risk_col3, risk_col4 = st.columns(4)
+
+
+        with risk_col1:
+            st.metric(
+                "Allergy Check",
+                "⚠️ ALERT" if allergy_alerts else "✅ CLEAR"
+            )
+
+
+        with risk_col2:
+            st.metric(
+                "Interaction Check",
+                "⚠️ ALERT" if interaction_alerts else "✅ CLEAR"
+            )
+
+
+        with risk_col3:
+            st.metric(
+                "Dosage Check",
+                "⚠️ ANOMALY" if dosage_alerts else "✅ CLEAR"
+            )
+
+
+        with risk_col4:
+            st.metric(
+                "Safety Alerts",
+                len(alerts)
+            )
+
+
+        # -------------------------------------------------
+        # FINAL DECISION
         # -------------------------------------------------
 
         st.divider()
 
         if alerts:
 
-            st.error("🚨 PRESCRIPTION BLOCKED")
+            st.error(
+                "🚨 PRESCRIPTION BLOCKED"
+            )
+
+            st.write(
+                f"MedAssist detected **{len(alerts)} safety alert(s)** "
+                "and recommends that the prescription is not cleared."
+            )
+
+
+            # -------------------------------------------------
+            # DISPLAY ALERT DETAILS
+            # -------------------------------------------------
 
             st.subheader("⚠️ Safety Alerts")
 
-            for alert in alerts:
+            for index, alert in enumerate(alerts, start=1):
 
-                if isinstance(alert, dict):
+                severity = alert.get(
+                    "severity",
+                    "UNKNOWN"
+                )
 
-                    st.warning(
-                        alert.get(
-                            "message",
-                            str(alert)
-                        )
+                rationale = alert.get(
+                    "rationale",
+                    "No rationale provided."
+                )
+
+                with st.expander(
+                    f"Alert {index}: {severity}"
+                ):
+
+                    st.write(
+                        f"**Severity:** `{severity}`"
                     )
 
-                else:
+                    st.write(
+                        f"**Rationale:** {rationale}"
+                    )
 
-                    st.warning(str(alert))
+                    # Display useful numerical information
+                    if "z_score" in alert:
+
+                        st.write(
+                            f"**Dosage:** {alert['dosage_mg']} mg"
+                        )
+
+                        st.write(
+                            f"**Historical Mean:** "
+                            f"{alert['mean_mg']} mg"
+                        )
+
+                        st.write(
+                            f"**Standard Deviation:** "
+                            f"{alert['std_dev_mg']} mg"
+                        )
+
+                        st.write(
+                            f"**Z-Score:** "
+                            f"`{alert['z_score']}`"
+                        )
+
+
+            # -------------------------------------------------
+            # GENERATE SECURE AUDIT LOG
+            # -------------------------------------------------
+
+            engine.generate_audit_log(
+                patient,
+                new_drug,
+                dosage,
+                alerts
+            )
+
+            st.success(
+                "🔐 Secure SHA-256 audit record generated."
+            )
 
 
         else:
 
-            st.success("✅ PRESCRIPTION CLEAR")
+            st.success(
+                "✅ PRESCRIPTION CLEAR"
+            )
 
             st.write(
-                "No clinical safety issues detected."
+                f"No clinical safety issues were detected for "
+                f"**{new_drug} {dosage:g} mg**."
+            )
+
+            # Add medication to active medication list
+            normalized_drug = new_drug.lower()
+
+            if normalized_drug not in patient.active_medications:
+
+                patient.active_medications.append(
+                    normalized_drug
+                )
+
+            st.info(
+                f"💊 {new_drug} has been cleared and added "
+                "to the patient's active medications for this session."
             )
 
 
@@ -250,24 +407,49 @@ if st.button(
         # DOSAGE ANALYSIS
         # -------------------------------------------------
 
+        st.divider()
+
         st.subheader("📊 Dosage Analysis")
 
-        if dosage_alert:
+        if dosage_alerts:
 
-            for result in dosage_alert:
+            dosage_data = dosage_alerts[0]
 
-                if isinstance(result, dict):
+            d1, d2, d3, d4 = st.columns(4)
 
-                    st.json(result)
+            with d1:
+                st.metric(
+                    "Prescribed",
+                    f"{dosage_data['dosage_mg']} mg"
+                )
 
-                else:
+            with d2:
+                st.metric(
+                    "Historical Mean",
+                    f"{dosage_data['mean_mg']} mg"
+                )
 
-                    st.write(result)
+            with d3:
+                st.metric(
+                    "Standard Deviation",
+                    f"{dosage_data['std_dev_mg']} mg"
+                )
+
+            with d4:
+                st.metric(
+                    "Z-Score",
+                    dosage_data["z_score"]
+                )
+
+            st.warning(
+                "The prescribed dosage is statistically anomalous "
+                "according to the configured Z-score threshold."
+            )
 
         else:
 
             st.success(
-                "Dosage is within the expected range."
+                "📊 Dosage is within the expected historical range."
             )
 
 
@@ -275,13 +457,16 @@ if st.button(
         # AUDIT LOG
         # -------------------------------------------------
 
-        st.subheader("🔐 Clinical Audit Log")
+        st.divider()
+
+        st.subheader("🔐 Cryptographic Audit Trail")
 
         try:
 
             with open(
                 "clinical_audit.log",
-                "r"
+                "r",
+                encoding="utf-8"
             ) as f:
 
                 audit_log = f.read()
@@ -306,12 +491,73 @@ if st.button(
             )
 
 
-# ---------------------------------------------------------
-# FOOTER
-# ---------------------------------------------------------
+# =========================================================
+# SYSTEM INFORMATION
+# =========================================================
 
 st.divider()
 
-st.caption(
-    "MedAssist Clinical AI • Clinical Decision Support System"
+st.subheader("🛡️ Safety Engine Capabilities")
+
+cap1, cap2, cap3 = st.columns(3)
+
+with cap1:
+
+    st.markdown(
+        """
+        **⚠️ Allergy Detection**
+
+        Identifies prescriptions that match
+        documented patient allergies.
+        """
+    )
+
+with cap2:
+
+    st.markdown(
+        """
+        **🔄 Drug Interaction Detection**
+
+        Performs bidirectional checks against
+        configured dangerous medication pairs.
+        """
+    )
+
+with cap3:
+
+    st.markdown(
+        """
+        **📊 Statistical Dosage Analysis**
+
+        Uses historical dosage distributions
+        and Z-score anomaly detection.
+        """
+    )
+
+
+# =========================================================
+# DISCLAIMER
+# =========================================================
+
+st.divider()
+
+st.warning(
+    "⚕️ **Prototype / Educational System:** "
+    "MedAssist is a software engineering demonstration "
+    "and is not intended to replace qualified clinical judgment "
+    "or real-world medical decision-making."
+)
+
+
+# =========================================================
+# FOOTER
+# =========================================================
+
+st.markdown(
+    """
+    <div class="footer">
+        MedAssist Clinical AI • Clinical Decision Support System
+    </div>
+    """,
+    unsafe_allow_html=True
 )
