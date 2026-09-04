@@ -30,3 +30,10 @@ active_meds = st.text_input(
     "Active Medications",
     placeholder="e.g. warfarin, aspirin"
 )
+patient = Patient(
+    patient_id=patient_id,
+    age=age,
+    weight_kg=weight,
+    allergies=allergies.split(",") if allergies else [],
+    active_meds=active_meds.split(",") if active_meds else []
+)
