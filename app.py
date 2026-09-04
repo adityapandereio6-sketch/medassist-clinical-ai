@@ -51,3 +51,9 @@ dosage = st.number_input(
     min_value=0.0,
     value=100.0
 )
+if st.button("🔍 Run Clinical Safety Check", type="primary"):
+
+    if not new_drug:
+        st.warning("Please enter a medication.")
+    else:
+        st.info("Safety analysis started...")
