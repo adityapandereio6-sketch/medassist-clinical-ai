@@ -1,10 +1,7 @@
+```python
 import streamlit as st
 from medassist import Patient, ClinicalSafetyEngine
 
-
-# =========================================================
-# PAGE CONFIG
-# =========================================================
 
 st.set_page_config(
     page_title="MedAssist Clinical AI",
@@ -13,9 +10,9 @@ st.set_page_config(
 )
 
 
-# =========================================================
+# =========================
 # CUSTOM STYLING
-# =========================================================
+# =========================
 
 st.markdown(
     """
@@ -53,25 +50,6 @@ st.markdown(
         color: #cbd5e1;
     }
 
-    .metric-card {
-        padding: 18px;
-        border-radius: 14px;
-        background: #161b22;
-        border: 1px solid #30363d;
-        text-align: center;
-    }
-
-    .metric-title {
-        font-size: 14px;
-        color: #94a3b8;
-    }
-
-    .metric-value {
-        font-size: 24px;
-        font-weight: bold;
-        margin-top: 5px;
-    }
-
     .footer {
         text-align: center;
         color: #64748b;
@@ -84,9 +62,9 @@ st.markdown(
 )
 
 
-# =========================================================
-# HEADER
-# =========================================================
+# =========================
+# HERO
+# =========================
 
 st.markdown(
     """
@@ -100,6 +78,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
 st.write(
     "Analyze medication safety using allergy detection, "
     "drug interaction checks, dosage anomaly detection, "
@@ -107,19 +86,18 @@ st.write(
 )
 
 
-# =========================================================
+# =========================
 # ENGINE
-# =========================================================
+# =========================
 
 engine = ClinicalSafetyEngine()
 
 
-# =========================================================
+# =========================
 # PATIENT INFORMATION
-# =========================================================
+# =========================
 
 st.divider()
-
 st.header("👤 Patient Information")
 
 col1, col2, col3 = st.columns(3)
@@ -151,15 +129,12 @@ allergies_input = st.text_input(
     placeholder="Example: penicillin, aspirin"
 )
 
+
 active_meds_input = st.text_input(
     "Active Medications",
     placeholder="Example: warfarin, aspirin"
 )
 
-
-# =========================================================
-# CREATE PATIENT
-# =========================================================
 
 patient = Patient(
     patient_id=patient_id,
@@ -178,12 +153,11 @@ patient = Patient(
 )
 
 
-# =========================================================
-# MEDICATION INPUT
-# =========================================================
+# =========================
+# MEDICATION SAFETY CHECK
+# =========================
 
 st.divider()
-
 st.header("💊 Medication Safety Check")
 
 col1, col2 = st.columns(2)
@@ -202,9 +176,9 @@ with col2:
     )
 
 
-# =========================================================
-# SAFETY CHECK
-# =========================================================
+# =========================
+# RUN ANALYSIS
+# =========================
 
 if st.button(
     "🔍 Run Clinical Safety Check",
@@ -222,10 +196,7 @@ if st.button(
 
         new_drug = new_drug.strip()
 
-
-        # -------------------------------------------------
-        # RUN ALL THREE SAFETY CHECKS
-        # -------------------------------------------------
+        # Run all three safety checks
 
         allergy_alerts = engine.check_allergy(
             patient,
@@ -242,8 +213,6 @@ if st.button(
             dosage
         )
 
-
-        # Combine alerts
         alerts = (
             allergy_alerts
             + interaction_alerts
@@ -251,48 +220,53 @@ if st.button(
         )
 
 
-        # -------------------------------------------------
-        # RISK SUMMARY
-        # -------------------------------------------------
+        # =========================
+        # RISK ASSESSMENT
+        # =========================
 
         st.divider()
-
         st.header("📋 Clinical Risk Assessment")
 
         risk_col1, risk_col2, risk_col3, risk_col4 = st.columns(4)
 
-
         with risk_col1:
+
             st.metric(
                 "Allergy Check",
-                "⚠️ ALERT" if allergy_alerts else "✅ CLEAR"
+                "⚠️ ALERT"
+                if allergy_alerts
+                else "✅ CLEAR"
             )
-
 
         with risk_col2:
+
             st.metric(
                 "Interaction Check",
-                "⚠️ ALERT" if interaction_alerts else "✅ CLEAR"
+                "⚠️ ALERT"
+                if interaction_alerts
+                else "✅ CLEAR"
             )
-
 
         with risk_col3:
+
             st.metric(
                 "Dosage Check",
-                "⚠️ ANOMALY" if dosage_alerts else "✅ CLEAR"
+                "⚠️ ANOMALY"
+                if dosage_alerts
+                else "✅ CLEAR"
             )
 
-
         with risk_col4:
+
             st.metric(
                 "Safety Alerts",
                 len(alerts)
             )
 
 
-        # -------------------------------------------------
-        # FINAL DECISION
-        # -------------------------------------------------
+        # =========================
+        # ALERT RESULTS
+        # =========================
 
         st.divider()
 
@@ -307,14 +281,13 @@ if st.button(
                 "and recommends that the prescription is not cleared."
             )
 
-
-            # -------------------------------------------------
-            # DISPLAY ALERT DETAILS
-            # -------------------------------------------------
-
             st.subheader("⚠️ Safety Alerts")
 
-            for index, alert in enumerate(alerts, start=1):
+
+            for index, alert in enumerate(
+                alerts,
+                start=1
+            ):
 
                 severity = alert.get(
                     "severity",
@@ -325,6 +298,7 @@ if st.button(
                     "rationale",
                     "No rationale provided."
                 )
+
 
                 with st.expander(
                     f"Alert {index}: {severity}"
@@ -338,11 +312,12 @@ if st.button(
                         f"**Rationale:** {rationale}"
                     )
 
-                    # Display useful numerical information
+
                     if "z_score" in alert:
 
                         st.write(
-                            f"**Dosage:** {alert['dosage_mg']} mg"
+                            f"**Dosage:** "
+                            f"{alert['dosage_mg']} mg"
                         )
 
                         st.write(
@@ -361,9 +336,9 @@ if st.button(
                         )
 
 
-            # -------------------------------------------------
-            # GENERATE SECURE AUDIT LOG
-            # -------------------------------------------------
+            # =========================
+            # AUDIT LOG
+            # =========================
 
             engine.generate_audit_log(
                 patient,
@@ -388,8 +363,9 @@ if st.button(
                 f"**{new_drug} {dosage:g} mg**."
             )
 
-            # Add medication to active medication list
+
             normalized_drug = new_drug.lower()
+
 
             if normalized_drug not in patient.active_medications:
 
@@ -397,19 +373,20 @@ if st.button(
                     normalized_drug
                 )
 
+
             st.info(
                 f"💊 {new_drug} has been cleared and added "
                 "to the patient's active medications for this session."
             )
 
 
-        # -------------------------------------------------
+        # =========================
         # DOSAGE ANALYSIS
-        # -------------------------------------------------
+        # =========================
 
         st.divider()
-
         st.subheader("📊 Dosage Analysis")
+
 
         if dosage_alerts:
 
@@ -418,33 +395,39 @@ if st.button(
             d1, d2, d3, d4 = st.columns(4)
 
             with d1:
+
                 st.metric(
                     "Prescribed",
                     f"{dosage_data['dosage_mg']} mg"
                 )
 
             with d2:
+
                 st.metric(
                     "Historical Mean",
                     f"{dosage_data['mean_mg']} mg"
                 )
 
             with d3:
+
                 st.metric(
                     "Standard Deviation",
                     f"{dosage_data['std_dev_mg']} mg"
                 )
 
             with d4:
+
                 st.metric(
                     "Z-Score",
                     dosage_data["z_score"]
                 )
 
+
             st.warning(
                 "The prescribed dosage is statistically anomalous "
                 "according to the configured Z-score threshold."
             )
+
 
         else:
 
@@ -453,13 +436,13 @@ if st.button(
             )
 
 
-        # -------------------------------------------------
-        # AUDIT LOG
-        # -------------------------------------------------
+        # =========================
+        # CRYPTOGRAPHIC AUDIT TRAIL
+        # =========================
 
         st.divider()
-
         st.subheader("🔐 Cryptographic Audit Trail")
+
 
         try:
 
@@ -470,6 +453,7 @@ if st.button(
             ) as f:
 
                 audit_log = f.read()
+
 
             if audit_log.strip():
 
@@ -484,6 +468,7 @@ if st.button(
                     "No audit events recorded yet."
                 )
 
+
         except FileNotFoundError:
 
             st.info(
@@ -491,15 +476,15 @@ if st.button(
             )
 
 
-# =========================================================
-# SYSTEM INFORMATION
-# =========================================================
+# =========================
+# SAFETY ENGINE CAPABILITIES
+# =========================
 
 st.divider()
-
 st.subheader("🛡️ Safety Engine Capabilities")
 
 cap1, cap2, cap3 = st.columns(3)
+
 
 with cap1:
 
@@ -512,6 +497,7 @@ with cap1:
         """
     )
 
+
 with cap2:
 
     st.markdown(
@@ -522,6 +508,7 @@ with cap2:
         configured dangerous medication pairs.
         """
     )
+
 
 with cap3:
 
@@ -535,9 +522,9 @@ with cap3:
     )
 
 
-# =========================================================
+# =========================
 # DISCLAIMER
-# =========================================================
+# =========================
 
 st.divider()
 
@@ -549,9 +536,9 @@ st.warning(
 )
 
 
-# =========================================================
+# =========================
 # FOOTER
-# =========================================================
+# =========================
 
 st.markdown(
     """
@@ -561,3 +548,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+```
