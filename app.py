@@ -64,7 +64,7 @@ if st.button("🔍 Run Clinical Safety Check", type="primary"):
 
         st.divider()
 
-        if alerts:
+                if alerts:
             st.error("🚨 PRESCRIPTION BLOCKED")
 
             st.subheader("Safety Alerts")
@@ -72,6 +72,13 @@ if st.button("🔍 Run Clinical Safety Check", type="primary"):
             for alert in alerts:
                 st.warning(alert)
 
-        else:
-            st.success("✅ PRESCRIPTION CLEAR")
-            st.write("No clinical safety issues detected.")
+            st.subheader("🔐 Audit Log")
+
+            try:
+                with open("clinical_audit.log", "r") as f:
+                    audit_log = f.read()
+
+                st.code(audit_log, language="text")
+
+            except FileNotFoundError:
+                st.info("No audit events recorded yet.")
