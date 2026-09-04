@@ -60,4 +60,18 @@ if st.button("🔍 Run Clinical Safety Check", type="primary"):
         interaction_alert = ClinicalSafetyEngine.check_interaction(patient, new_drug)
         dosage_alert = ClinicalSafetyEngine.check_dosage_anomaly(new_drug, dosage)
 
-        alerts = allergy_alert + interaction_alert + dosage_alert
+                alerts = allergy_alert + interaction_alert + dosage_alert
+
+        st.divider()
+
+        if alerts:
+            st.error("🚨 PRESCRIPTION BLOCKED")
+
+            st.subheader("Safety Alerts")
+
+            for alert in alerts:
+                st.warning(alert)
+
+        else:
+            st.success("✅ PRESCRIPTION CLEAR")
+            st.write("No clinical safety issues detected.")
