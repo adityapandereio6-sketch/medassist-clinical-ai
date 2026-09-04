@@ -1,14 +1,11 @@
-```python
 import streamlit as st
 from medassist import Patient, ClinicalSafetyEngine
-
 
 st.set_page_config(
     page_title="MedAssist Clinical AI",
     page_icon="🏥",
     layout="wide"
 )
-
 
 # =========================
 # CUSTOM STYLING
@@ -17,7 +14,6 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-
     .main {
         background-color: #0e1117;
     }
@@ -31,11 +27,7 @@ st.markdown(
     .hero {
         padding: 30px;
         border-radius: 18px;
-        background: linear-gradient(
-            135deg,
-            #111827,
-            #1e293b
-        );
+        background: linear-gradient(135deg, #111827, #1e293b);
         border: 1px solid #334155;
         margin-bottom: 25px;
     }
@@ -55,15 +47,13 @@ st.markdown(
         color: #64748b;
         padding-top: 15px;
     }
-
     </style>
     """,
     unsafe_allow_html=True
 )
 
-
 # =========================
-# HERO
+# HEADER
 # =========================
 
 st.markdown(
@@ -78,20 +68,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 st.write(
     "Analyze medication safety using allergy detection, "
     "drug interaction checks, dosage anomaly detection, "
     "and cryptographic audit logging."
 )
 
-
-# =========================
-# ENGINE
-# =========================
-
 engine = ClinicalSafetyEngine()
-
 
 # =========================
 # PATIENT INFORMATION
@@ -123,18 +106,15 @@ with col3:
         value=70.0
     )
 
-
 allergies_input = st.text_input(
     "Allergies",
     placeholder="Example: penicillin, aspirin"
 )
 
-
 active_meds_input = st.text_input(
     "Active Medications",
     placeholder="Example: warfarin, aspirin"
 )
-
 
 patient = Patient(
     patient_id=patient_id,
@@ -151,7 +131,6 @@ patient = Patient(
         else []
     )
 )
-
 
 # =========================
 # MEDICATION SAFETY CHECK
@@ -175,9 +154,8 @@ with col2:
         value=100.0
     )
 
-
 # =========================
-# RUN ANALYSIS
+# RUN SAFETY CHECK
 # =========================
 
 if st.button(
@@ -195,8 +173,6 @@ if st.button(
     else:
 
         new_drug = new_drug.strip()
-
-        # Run all three safety checks
 
         allergy_alerts = engine.check_allergy(
             patient,
@@ -219,7 +195,6 @@ if st.button(
             + dosage_alerts
         )
 
-
         # =========================
         # RISK ASSESSMENT
         # =========================
@@ -230,45 +205,34 @@ if st.button(
         risk_col1, risk_col2, risk_col3, risk_col4 = st.columns(4)
 
         with risk_col1:
-
             st.metric(
                 "Allergy Check",
-                "⚠️ ALERT"
-                if allergy_alerts
-                else "✅ CLEAR"
+                "⚠️ ALERT" if allergy_alerts else "✅ CLEAR"
             )
 
         with risk_col2:
-
             st.metric(
                 "Interaction Check",
-                "⚠️ ALERT"
-                if interaction_alerts
-                else "✅ CLEAR"
+                "⚠️ ALERT" if interaction_alerts else "✅ CLEAR"
             )
 
         with risk_col3:
-
             st.metric(
                 "Dosage Check",
-                "⚠️ ANOMALY"
-                if dosage_alerts
-                else "✅ CLEAR"
+                "⚠️ ANOMALY" if dosage_alerts else "✅ CLEAR"
             )
 
         with risk_col4:
-
             st.metric(
                 "Safety Alerts",
                 len(alerts)
             )
 
-
-        # =========================
-        # ALERT RESULTS
-        # =========================
-
         st.divider()
+
+        # =========================
+        # BLOCKED PRESCRIPTION
+        # =========================
 
         if alerts:
 
@@ -282,7 +246,6 @@ if st.button(
             )
 
             st.subheader("⚠️ Safety Alerts")
-
 
             for index, alert in enumerate(
                 alerts,
@@ -299,7 +262,6 @@ if st.button(
                     "No rationale provided."
                 )
 
-
                 with st.expander(
                     f"Alert {index}: {severity}"
                 ):
@@ -311,7 +273,6 @@ if st.button(
                     st.write(
                         f"**Rationale:** {rationale}"
                     )
-
 
                     if "z_score" in alert:
 
@@ -335,11 +296,7 @@ if st.button(
                             f"`{alert['z_score']}`"
                         )
 
-
-            # =========================
-            # AUDIT LOG
-            # =========================
-
+            # Generate audit record
             engine.generate_audit_log(
                 patient,
                 new_drug,
@@ -351,6 +308,9 @@ if st.button(
                 "🔐 Secure SHA-256 audit record generated."
             )
 
+        # =========================
+        # CLEAR PRESCRIPTION
+        # =========================
 
         else:
 
@@ -363,9 +323,7 @@ if st.button(
                 f"**{new_drug} {dosage:g} mg**."
             )
 
-
             normalized_drug = new_drug.lower()
-
 
             if normalized_drug not in patient.active_medications:
 
@@ -373,12 +331,10 @@ if st.button(
                     normalized_drug
                 )
 
-
             st.info(
                 f"💊 {new_drug} has been cleared and added "
                 "to the patient's active medications for this session."
             )
-
 
         # =========================
         # DOSAGE ANALYSIS
@@ -387,7 +343,6 @@ if st.button(
         st.divider()
         st.subheader("📊 Dosage Analysis")
 
-
         if dosage_alerts:
 
             dosage_data = dosage_alerts[0]
@@ -395,39 +350,33 @@ if st.button(
             d1, d2, d3, d4 = st.columns(4)
 
             with d1:
-
                 st.metric(
                     "Prescribed",
                     f"{dosage_data['dosage_mg']} mg"
                 )
 
             with d2:
-
                 st.metric(
                     "Historical Mean",
                     f"{dosage_data['mean_mg']} mg"
                 )
 
             with d3:
-
                 st.metric(
                     "Standard Deviation",
                     f"{dosage_data['std_dev_mg']} mg"
                 )
 
             with d4:
-
                 st.metric(
                     "Z-Score",
                     dosage_data["z_score"]
                 )
 
-
             st.warning(
                 "The prescribed dosage is statistically anomalous "
                 "according to the configured Z-score threshold."
             )
-
 
         else:
 
@@ -435,14 +384,12 @@ if st.button(
                 "📊 Dosage is within the expected historical range."
             )
 
-
         # =========================
-        # CRYPTOGRAPHIC AUDIT TRAIL
+        # AUDIT TRAIL
         # =========================
 
         st.divider()
         st.subheader("🔐 Cryptographic Audit Trail")
-
 
         try:
 
@@ -453,7 +400,6 @@ if st.button(
             ) as f:
 
                 audit_log = f.read()
-
 
             if audit_log.strip():
 
@@ -468,16 +414,14 @@ if st.button(
                     "No audit events recorded yet."
                 )
 
-
         except FileNotFoundError:
 
             st.info(
                 "No audit events recorded yet."
             )
 
-
 # =========================
-# SAFETY ENGINE CAPABILITIES
+# CAPABILITIES
 # =========================
 
 st.divider()
@@ -485,9 +429,7 @@ st.subheader("🛡️ Safety Engine Capabilities")
 
 cap1, cap2, cap3 = st.columns(3)
 
-
 with cap1:
-
     st.markdown(
         """
         **⚠️ Allergy Detection**
@@ -497,9 +439,7 @@ with cap1:
         """
     )
 
-
 with cap2:
-
     st.markdown(
         """
         **🔄 Drug Interaction Detection**
@@ -509,9 +449,7 @@ with cap2:
         """
     )
 
-
 with cap3:
-
     st.markdown(
         """
         **📊 Statistical Dosage Analysis**
@@ -520,7 +458,6 @@ with cap3:
         and Z-score anomaly detection.
         """
     )
-
 
 # =========================
 # DISCLAIMER
@@ -535,7 +472,6 @@ st.warning(
     "or real-world medical decision-making."
 )
 
-
 # =========================
 # FOOTER
 # =========================
@@ -548,4 +484,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-```
