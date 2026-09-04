@@ -138,7 +138,7 @@ patient = Patient(
     age=age,
     weight_kg=weight,
     allergies=allergies.split(",") if allergies else [],
-    active_meds=active_meds.split(",") if active_meds else []
+    active_medications=active_meds.split(",") if active_meds else []
 )
 
 
