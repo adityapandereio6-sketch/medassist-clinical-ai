@@ -56,4 +56,8 @@ if st.button("🔍 Run Clinical Safety Check", type="primary"):
     if not new_drug:
         st.warning("Please enter a medication.")
     else:
-        st.info("Safety analysis started...")
+        allergy_alert = ClinicalSafetyEngine.check_allergy(patient, new_drug)
+        interaction_alert = ClinicalSafetyEngine.check_interaction(patient, new_drug)
+        dosage_alert = ClinicalSafetyEngine.check_dosage_anomaly(new_drug, dosage)
+
+        alerts = allergy_alert + interaction_alert + dosage_alert
