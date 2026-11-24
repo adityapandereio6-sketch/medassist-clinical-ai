@@ -1,6 +1,6 @@
-import json
-import hashlib
 from datetime import datetime, timezone
+
+from audit_log import append_event
 
 class Patient:
     def __init__(self, patient_id: str, age: int, weight_kg: float, allergies: list = None, active_medications: list = None):
@@ -112,16 +112,10 @@ class ClinicalSafetyEngine:
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
-        # Serialize to JSON with sorted keys for tamper-evident cryptographic consistency
-        json_string = json.dumps(blocked_event, sort_keys=True)
-
-        # Compute SHA-256 hash of the JSON string
-        event_hash = hashlib.sha256(json_string.encode("utf-8")).hexdigest()
-
-        # Write/append both the JSON string and the hash to the local log file
-        log_file_path = "clinical_audit.log"
-        with open(log_file_path, "a", encoding="utf-8") as f:
-            f.write(f"EVENT: {json_string}\nHASH: {event_hash}\n---\n")
+        # Append to the hash-chained log: each entry stores the previous entry's
+        # SHA-256 hash, so editing or removing an entry breaks the chain
+        # (see audit_log.py; run `python audit_log.py` to verify the log).
+        event_hash = append_event(blocked_event, "clinical_audit.log")
 
         print(f"[AUDIT] SECURE RECORD GENERATED: SHA-256 hash {event_hash[:8]}... written to clinical_audit.log.")
 
