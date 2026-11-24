@@ -119,8 +119,14 @@ Git & GitHub
 📂 Project Structure
 medassist-clinical-ai/
 │
-├── app.py
-├── medassist.py
+├── app.py                  # Streamlit dashboard
+├── medassist.py            # Safety engine: allergy, interaction, dosage checks
+├── fhir_resources.py       # FHIR R4 resource builders and validation
+├── medassist_fhir.py       # Adapter: FHIR bundle -> safety engine
+├── audit_log.py            # Hash-chained SHA-256 audit log + verifier
+├── test_fhir_resources.py
+├── test_medassist_fhir.py
+├── test_audit_log.py
 ├── clinical_audit.log
 └── README.md
 ▶️ Run Locally
@@ -168,6 +174,11 @@ UTC timestamp
 SHA-256 hash
 
 This demonstrates how cryptographic hashing can be incorporated into an audit-oriented clinical software workflow.
+Each record also stores the hash of the previous record (`prev_hash`), forming a chain. Editing, deleting or reordering an entry in the middle of the log breaks the chain. Check the log with:
+
+python audit_log.py
+
+Limitation: the chain cannot detect entries removed from the very end of the log, or a full rewrite with every hash recomputed. A production system would also store the latest hash somewhere separate.
 
 ## 🩺 FHIR Interoperability Layer
 
@@ -196,7 +207,7 @@ print(result["status"])   # BLOCKED
 Run the tests:
 
 ```
-python -m unittest test_fhir_resources test_medassist_fhir
+python -m unittest test_fhir_resources test_medassist_fhir test_audit_log
 ```
 
 ⚕️ Important Disclaimer
