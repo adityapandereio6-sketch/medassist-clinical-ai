@@ -169,6 +169,36 @@ SHA-256 hash
 
 This demonstrates how cryptographic hashing can be incorporated into an audit-oriented clinical software workflow.
 
+## 🩺 FHIR Interoperability Layer
+
+Patient data can be passed in as FHIR R4 resources instead of loose strings.
+
+- `fhir_resources.py` builds and validates `Patient`, `AllergyIntolerance`, `MedicationRequest` and `Bundle` resources (RxNorm drug codes, UCUM dose units).
+- `medassist_fhir.py` reads a bundle and runs the safety engine on a proposed `MedicationRequest`.
+- The validator checks required fields, allowed codes and reference formats for these resource types. It is a subset validator, not a full FHIR profile validator.
+
+```python
+import fhir_resources as fhir
+from medassist import ClinicalSafetyEngine
+from medassist_fhir import check_medication_request
+
+bundle = fhir.make_bundle([
+    fhir.make_patient("1958-03-02", "male", patient_id="PT-9942"),
+    fhir.make_allergy("PT-9942", "penicillin"),
+    fhir.make_medication_request("PT-9942", "warfarin", 5),
+])
+request = fhir.make_medication_request("PT-9942", "aspirin", 81)
+
+result = check_medication_request(ClinicalSafetyEngine(), bundle, request)
+print(result["status"])   # BLOCKED
+```
+
+Run the tests:
+
+```
+python -m unittest test_fhir_resources test_medassist_fhir
+```
+
 ⚕️ Important Disclaimer
 
 MedAssist Clinical AI is an educational and software-engineering prototype.
